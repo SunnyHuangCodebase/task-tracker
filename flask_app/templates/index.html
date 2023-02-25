@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Task Tracker</title>
+    </head>
+
+    <body>
+        <h1>Task App</h1>
+        <form action="./add" method="post">
+            <input type="text" name="name" placeholder="Task Name">
+            <button type="submit">Add Task</button>
+        </form>
+        <button title="Delete All" href="./delete_all">Delete All</button>
+        {% if in_progress %}
+        <section>
+            <h2>In Progress</h2>
+            {% for task in in_progress %}
+            <p>{{ task.name }}</p>
+            <a href="./update/{{task.id}}">Mark as Complete</a>
+            <a href="./delete/{{task.id}}">Delete Task</a>
+            {% endfor %}
+        </section>
+        {% endif %}
+
+        {% if complete %}
+        <h2>Completed</h2>
+        <section>
+            {% for task in complete %}
+            <p>{{ task.name }}</p>
+            <a href="./update/{{task.id}}">Mark as In-Progress</a>
+            <a href="./delete/{{task.id}}">Delete Task</a>
+            {% endfor %}
+        </section>
+        {% endif %}
+    </body>
+</html>
