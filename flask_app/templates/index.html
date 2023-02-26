@@ -1,37 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
+<html data-bs-theme="dark" lang="en">
 
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Task Tracker</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
     </head>
 
     <body>
-        <h1>Task App</h1>
-        <form action="./add" method="post">
-            <input type="text" name="name" placeholder="Task Name">
-            <button type="submit">Add Task</button>
-        </form>
-        <button title="Delete All" href="./delete_all">Delete All</button>
+        <header class="text-bg-primary bg-gradient navbar navbar-expand-lg sticky-top">
+            <nav class="container-xxl bd-gutter flex-wrap flex-lg-nowrap">
+                <div class="w-25">
+                    <h1 class="fs-3 ps-2 m-3">Task App</h1>
+                </div>
+                <div>
+                    <form class="input-group justify-content-center bg-transparent" action="./add" method="post">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text bi-list-check h-100 rounded-0 rounded-start"></span>
+                        </div>
+                        <div>
+                            <input class="form-control col-auto rounded-0" type="text" name="name" placeholder="Task Name">
+                        </div>
+                        <div class="input-group-append">
+                            <button class="bi bi-plus-lg btn btn-success rounded-0 rounded-end" title="Add Task" aria-label="Add Task" type="submit"></button>
+                        </div>
+                    </form>
+                </div>
+                <div class="text-end w-25 p-2 me-3">
+                    <a class="bi bi-arrow-clockwise btn btn-danger m-1" title="Delete All" aria-label ="Delete All" href="./delete_all"></a>
+                </div>
+            </nav>
+        </header>
         {% if in_progress %}
-        <section>
-            <h2>In Progress</h2>
+        <section class="container">
+            <h2 class="fw-bold text-center p-3 fs-3">In Progress</h2>
             {% for task in in_progress %}
-            <p>{{ task.name }}</p>
-            <a href="./update/{{task.id}}">Mark as Complete</a>
-            <a href="./delete/{{task.id}}">Delete Task</a>
+            <div class="d-flex align-items-center border rounded shadow-sm p-2 m-3">
+                <p class="flex-grow-1 m-0 fw-bold">{{ task.name }}</p>
+                <a class="bi bi-check-lg btn btn-primary m-1" title="Mark as Complete" aria-label="Mark as Complete" href="./update/{{task.id}}"></a>
+                <a class="bi bi-x-lg btn btn-outline-danger m-1" title="Delete Task" aria-label ="Delete Task" href="./delete/{{task.id}}"></a>
+            </div>
             {% endfor %}
         </section>
         {% endif %}
 
         {% if complete %}
-        <h2>Completed</h2>
-        <section>
+        <h2 class="fw-bold text-center p-3 fs-3">Completed</h2>
+        <section class="container">
             {% for task in complete %}
-            <p>{{ task.name }}</p>
-            <a href="./update/{{task.id}}">Mark as In-Progress</a>
-            <a href="./delete/{{task.id}}">Delete Task</a>
+            <div class="d-flex align-items-center border rounded shadow p-2 m-3">
+                <p class="flex-grow-1 m-0 fw-bold">{{ task.name }}</p>
+                <a class="bi bi-dash-lg btn btn-primary m-1" title="Mark as In-Progress" aria-label="Mark as In-Progress" href="./update/{{task.id}}"></a>
+                <a class="bi bi-x-lg btn btn-outline-danger m-1" title="Delete Task" aria-label ="Delete Task" href="./delete/{{task.id}}"></a>
+            </div>
             {% endfor %}
         </section>
         {% endif %}
