@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Self, Sequence, TypeVar
+from typing import TYPE_CHECKING, Sequence, TypeVar
 
 from sqlalchemy import Select, delete
 from sqlalchemy.orm import DeclarativeBase
@@ -16,25 +16,16 @@ class Model(DeclarativeBase):
     database: Database
 
     @staticmethod
-    def query(database: Database,
-              statement: Select[tuple[Self]]) -> Self | None:
+    def query(database: Database, statement: Select[tuple[M]]) -> M | None:
         """Returns a matching instance from the database or None."""
         instance = database.scalars(statement).first()
-
-        if instance:
-            instance.database = database
-
         return instance
 
     @staticmethod
     def query_all(database: Database,
-                  statement: Select[tuple[Self]]) -> Sequence[Self]:
+                  statement: Select[tuple[M]]) -> Sequence[M]:
         """Returns list of matching instances from the database if any."""
         return database.scalars(statement).all()
-
-    def add(self, instance: Model):
-        """Adds instance to the database."""
-        self.database.add(instance)
 
     def delete(self):
         """Deletes instance from the database."""
