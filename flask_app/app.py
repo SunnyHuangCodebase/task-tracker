@@ -24,15 +24,15 @@ def home():
 
 @app.post("/add")
 def add():
-    task = Task(name=request.form.get("name"))
-    DATABASE.add(task)
+    task_name = request.form.get("name")
+    Task(task_name, DATABASE)
     return redirect(url_for("home"))
 
 
 @app.get("/update/<int:task_id>")
 def update(task_id: int):
     task = Task.get_by_id(DATABASE, task_id)
-    task.toggle_complete(DATABASE)
+    task.toggle_complete()
     return redirect(url_for("home"))
 
 
