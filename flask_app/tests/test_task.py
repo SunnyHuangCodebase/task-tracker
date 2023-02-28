@@ -7,11 +7,11 @@ from flask_app.server.model import Task, TaskNotFound
 
 class TestTask:
 
-    @pytest.fixture
+    @pytest.fixture(scope="session")
     def database(self) -> Database:
         return Database(url="sqlite:///testdb.sqlite")
 
-    @pytest.fixture
+    @pytest.fixture(scope="session")
     def task1(self, database: Database) -> Task:
         return Task("Task 1", database)
 
