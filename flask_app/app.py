@@ -5,8 +5,11 @@ from flask_app.server.model import Task
 
 app = Flask(
     __name__,
-    root_path="flask_app",
+    root_path="",
+    template_folder="./templates",
+    static_folder="./static",
 )
+
 DATABASE = Database()
 
 
