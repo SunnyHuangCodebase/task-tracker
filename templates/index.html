@@ -6,11 +6,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Task Tracker</title>
         {% block styles %}
-        <link rel="stylesheet" href="{{url_for('static', filename='bootstrap.min.css')}}">
-        <link rel="stylesheet" href="{{url_for('static', filename='bootstrap-icons.css')}}">
-        <script src="{{url_for('static', filename='bootstrap.bundle.min.js')}}"></script>
+        <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap-icons.css') }}">
+        <script src="{{ url_for('static', filename='bootstrap.bundle.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='script.js') }}"></script>
         {% endblock %}
     </head>
+
 
     <body>
         <header class="text-bg-primary bg-gradient navbar navbar-expand-lg sticky-top">
@@ -19,7 +21,7 @@
                     <h1 class="fs-3 ps-2 m-3">Task App</h1>
                 </div>
                 <div>
-                    <form class="input-group justify-content-center bg-transparent" action="./add" method="post">
+                    <form class="input-group justify-content-center bg-transparent" action="{{ url_for('add') }}" method="post">
                         <div class="input-group-prepend">
                             <span class="input-group-text bi-list-check h-100 rounded-0 rounded-start"></span>
                         </div>
@@ -32,7 +34,7 @@
                     </form>
                 </div>
                 <div class="text-end w-25 p-2 me-3">
-                    <a class="bi bi-arrow-clockwise btn btn-danger m-1" title="Delete All" aria-label ="Delete All" href="./delete_all"></a>
+                    <a class="bi bi-arrow-clockwise btn btn-danger m-1" title="Delete All" aria-label ="Delete All" onclick="delete_all_tasks()"></a>
                 </div>
             </nav>
         </header>
@@ -42,8 +44,8 @@
             {% for task in in_progress %}
             <div class="d-flex align-items-center border rounded shadow-sm p-2 m-3">
                 <p class="flex-grow-1 m-0 fw-bold">{{ task.name }}</p>
-                <a class="bi bi-check-lg btn btn-primary m-1" title="Mark as Complete" aria-label="Mark as Complete" href="./update/{{task.id}}"></a>
-                <a class="bi bi-x-lg btn btn-outline-danger m-1" title="Delete Task" aria-label ="Delete Task" href="./delete/{{task.id}}"></a>
+                <button class="bi bi-check-lg btn btn-primary m-1" title="Mark as Complete" aria-label="Mark as Complete" value="{{ task.id }}" onclick="update_task(this)"></button>
+                <button class="bi bi-x-lg btn btn-outline-danger m-1" title="Delete Task" aria-label ="Delete Task" value="{{ task.id }}" onclick="delete_task(this)"></button>
             </div>
             {% endfor %}
         </section>
@@ -55,8 +57,8 @@
             {% for task in complete %}
             <div class="d-flex align-items-center border rounded shadow p-2 m-3">
                 <p class="flex-grow-1 m-0 fw-bold">{{ task.name }}</p>
-                <a class="bi bi-dash-lg btn btn-primary m-1" title="Mark as In-Progress" aria-label="Mark as In-Progress" href="./update/{{task.id}}"></a>
-                <a class="bi bi-x-lg btn btn-outline-danger m-1" title="Delete Task" aria-label ="Delete Task" href="./delete/{{task.id}}"></a>
+                <button class="bi bi-dash-lg btn btn-primary m-1" title="Mark as In-Progress" aria-label="Mark as In-Progress" value="{{ task.id }}" onclick="update_task(this)"></button>
+                <button class="bi bi-x-lg btn btn-outline-danger m-1" title="Delete Task" aria-label ="Delete Task" value="{{ task.id }}" onclick="delete_task(this)"></button>
             </div>
             {% endfor %}
         </section>
