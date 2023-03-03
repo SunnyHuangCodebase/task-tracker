@@ -3,14 +3,23 @@ from flask import Flask, redirect, render_template, request, url_for
 from flask_app.server.database import Database
 from flask_app.server.model import Task
 
-app = Flask(
+
+class FlaskApp(Flask):
+    database: Database
+
+    def set_database(self, database: Database):
+        """Sets a database to the FlaskApp."""
+        self.database = database
+
+
+app = FlaskApp(
     __name__,
     root_path="",
     template_folder="./templates",
     static_folder="./static",
 )
 
-app.database = Database()
+app.set_database(Database())
 
 
 @app.route("/", methods=["GET", "POST", "PATCH", "PUT", "DELETE"])
