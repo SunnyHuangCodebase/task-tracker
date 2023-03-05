@@ -1,7 +1,7 @@
 from flask import Flask, redirect, render_template, request, url_for
 
-from flask_app.server.database import Database
-from flask_app.server.model import Task
+from server.database import Database
+from server.model import Task
 
 
 class FlaskApp(Flask):
@@ -51,6 +51,7 @@ def update(task_id: int):
 def delete(task_id: int):
     task = Task.get_by_id(app.database, task_id)
     task.delete()
+    print("Deleted from Flask")
     return redirect(url_for("home"))
 
 

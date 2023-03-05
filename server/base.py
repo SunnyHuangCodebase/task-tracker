@@ -6,7 +6,7 @@ from sqlalchemy import Select, delete
 from sqlalchemy.orm import DeclarativeBase
 
 if TYPE_CHECKING:
-    from flask_app.server.database import Database
+    from server.database import Database
 
 M = TypeVar("M", bound="Model")
 

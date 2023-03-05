@@ -1,7 +1,7 @@
 from flask.testing import FlaskClient
 
-from flask_app.server.database import Database
-from flask_app.server.model import Task
+from server.database import Database
+from server.model import Task
 
 
 class TestRoutes:

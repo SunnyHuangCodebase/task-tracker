@@ -5,10 +5,10 @@ from typing import TYPE_CHECKING, Sequence
 from sqlalchemy import Boolean, Integer, Select, String, select
 from sqlalchemy.orm import Mapped, mapped_column
 
-from flask_app.server.base import Model
+from server.base import Model
 
 if TYPE_CHECKING:
-    from flask_app.server.database import Database
+    from server.database import Database
 
 
 class TaskNotFound(Exception):

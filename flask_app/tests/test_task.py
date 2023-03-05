@@ -1,8 +1,8 @@
 import pytest
 from sqlalchemy.exc import IntegrityError
 
-from flask_app.server.database import Database
-from flask_app.server.model import Task, TaskNotFound
+from server.database import Database
+from server.model import Task, TaskNotFound
 
 
 class TestTask:

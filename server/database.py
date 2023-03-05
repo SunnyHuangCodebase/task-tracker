@@ -5,7 +5,7 @@ from sqlalchemy import Engine, create_engine
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
-from flask_app.server.base import Model
+from server.base import Model
 
 
 class Database(Session):
