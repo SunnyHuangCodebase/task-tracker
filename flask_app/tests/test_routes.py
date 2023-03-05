@@ -7,6 +7,7 @@ from flask_app.server.model import Task
 class TestRoutes:
 
     def test_get_homepage(self, client: FlaskClient):
+        """Homepage returns Task App header without any tasks in initial view."""
         response = client.get("/")
         assert response.status_code == 200
         assert b"Task App" in response.data
@@ -14,6 +15,7 @@ class TestRoutes:
         assert b"Completed" not in response.data
 
     def test_add_first_task(self, client: FlaskClient):
+        """Adding a Task adds it to the homepage in the "In Progress" category."""
         before = client.get("/")
         assert b"In Progress" not in before.data
         assert b"Task 1" not in before.data
@@ -29,6 +31,7 @@ class TestRoutes:
 
     def test_toggle_complete_task(self, client: FlaskClient,
                                   database: Database):
+        """List unfinished Tasks under "In Progress" and finished Tasks under "Completed"."""
         before = client.get("/")
         assert b"In Progress" in before.data
         assert b"Task 1" in before.data
@@ -53,17 +56,21 @@ class TestRoutes:
         assert b"Completed" not in before.data
 
     def test_add_second_task(self, client: FlaskClient):
+        """Adding another Task does not change any existing Tasks."""
         before = client.get("/")
+        assert b"Task 1" in before.data
         assert b"Task 2" not in before.data
 
         response = client.post("/add", data={"name": "Task 2"})
         assert response.status_code == 302
 
         after = client.get("/")
+        assert b"Task 1" in after.data
         assert b"Task 2" in after.data
 
-    def test_toggle_multiple_tasks(self, client: FlaskClient,
-                                   database: Database):
+    def test_toggle_complete_multiple_tasks(self, client: FlaskClient,
+                                            database: Database):
+        """"In Progress" and "Completed" sections only show if Tasks are listed under them."""
         before = client.get("/")
         assert b"In Progress" in before.data
         assert b"Task 1" in before.data
@@ -91,31 +98,31 @@ class TestRoutes:
         assert b"Completed" in update2.data
 
     def test_delete_task(self, client: FlaskClient, database: Database):
+        """Deleting a Task does not change any other Tasks."""
         before = client.get("/")
         assert b"Task 1" in before.data
         assert b"Task 2" in before.data
 
-        task1, task2 = [task.id for task in Task.get_all(database)]
+        task1, _ = [task.id for task in Task.get_all(database)]
 
         client.delete(f"/delete/{task1}")
         delete1 = client.get("/")
         assert b"Task 1" not in delete1.data
         assert b"Task 2" in delete1.data
 
-        client.delete(f"/delete/{task2}")
-        delete2 = client.get("/")
-        assert b"Task 1" not in delete2.data
-        assert b"Task 2" not in delete2.data
-
     def test_delete_all_tasks(self, client: FlaskClient, database: Database):
+        """Deleting all Tasks removes all Tasks and categories from the view"""
         Task("Task 1", database)
-        Task("Task 2", database)
 
         before = client.get("/")
         assert b"Task 1" in before.data
         assert b"Task 2" in before.data
+        assert b"In Progress" in before.data
+        assert b"Completed" in before.data
 
-        client.delete(f"/delete_all")
+        client.delete("/delete_all")
         after = client.get("/")
         assert b"Task 1" not in after.data
         assert b"Task 2" not in after.data
+        assert b"In Progress" not in after.data
+        assert b"Completed" not in after.data
