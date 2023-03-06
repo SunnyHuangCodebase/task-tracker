@@ -59,3 +59,11 @@ def delete(task_id: int):
 def delete_all():
     Task.delete_all(app.database)
     return redirect(url_for("home"))
+
+
+def main():
+    app.run(debug=True)
+
+
+if __name__ == "__main__":
+    main()

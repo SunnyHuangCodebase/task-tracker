@@ -1,9 +1,11 @@
-from flask_app.app import app as flask_app
+from flask_app.app import main as run_flask
 
+app = {
+    1: run_flask,
+}
 
-def main():
-    flask_app.run(debug=True)
 
 
 if __name__ == "__main__":
-    main()
+    APP_ID = 1
+    main(APP_ID)
