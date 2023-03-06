@@ -28,7 +28,7 @@ def home():
     tasks = Task.get_all(app.database)
     in_progress = [task for task in tasks if not task.complete]
     complete = [task for task in tasks if task.complete]
-    return render_template("index.html",
+    return render_template("flask.html",
                            in_progress=in_progress,
                            complete=complete)
 
