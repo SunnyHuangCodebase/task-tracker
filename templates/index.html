@@ -17,7 +17,8 @@
                     <h1 class="fs-3 ps-2 m-3">Task App</h1>
                 </div>
                 <div>
-                    <form class="input-group justify-content-center bg-transparent" action="{{ url_for('add') }}" method="post">
+                    <form class="input-group justify-content-center bg-transparent" action="add" method="POST">
+                        {% block csrf %}{% endblock %}
                         <div class="input-group-prepend">
                             <span class="input-group-text bi-list-check h-100 rounded-0 rounded-start"></span>
                         </div>

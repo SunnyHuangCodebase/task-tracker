@@ -1,0 +1,12 @@
+{% extends "index.html" %}
+{% load static %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static 'bootstrap-icons.css' %}">
+<script src="{% static 'bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'script.js' %}"></script>
+{% endblock %}
+
+{% block csrf %}
+{% csrf_token %}
+{% endblock %}
