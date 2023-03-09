@@ -1,12 +1,12 @@
-from django.core.handlers.wsgi import WSGIRequest
+from django.core.handlers.asgi import ASGIRequest
+from django.http import HttpResponseNotAllowed
 from django.shortcuts import redirect, render
-from django.views.decorators.http import require_http_methods
 
 from .models import Task
 
 
-def index(request: WSGIRequest):
-    tasks = Task.objects.all()
+async def index(request: ASGIRequest):
+    tasks = [task async for task in Task.objects.all()]
     in_progress = [task for task in tasks if not task.complete]
     complete = [task for task in tasks if task.complete]
     return render(request, "django.html", {
@@ -15,26 +15,34 @@ def index(request: WSGIRequest):
     })
 
 
-@require_http_methods(["POST"])
-def add(request: WSGIRequest):
+async def add(request: ASGIRequest):
+    if request.method != "POST":
+        return HttpResponseNotAllowed(["POST"])
+
     task_name = request.POST.get("name")
-    Task(name=task_name)
+    await Task.a_create(task_name)
     return redirect("index")
 
 
-@require_http_methods(["PATCH"])
-def update(request: WSGIRequest, task_id: int):
-    Task.objects.get(id=task_id).toggle_complete()
+async def update(request: ASGIRequest, task_id: int):
+    if request.method != "PATCH":
+        return HttpResponseNotAllowed(["PATCH"])
+
+    await Task.a_toggle_complete(task_id)
     return redirect("index")
 
 
-@require_http_methods(["DELETE"])
-def delete(request: WSGIRequest, task_id: int):
-    Task.objects.get(id=task_id).delete()
+async def delete(request: ASGIRequest, task_id: int):
+    if request.method != "DELETE":
+        return HttpResponseNotAllowed(["DELETE"])
+
+    await Task.a_delete(task_id)
     return redirect("index")
 
 
-@require_http_methods(["DELETE"])
-def delete_all(request: WSGIRequest):
-    Task.delete_all()
+async def delete_all(request: ASGIRequest):
+    if request.method != "DELETE":
+        return HttpResponseNotAllowed(["DELETE"])
+
+    await Task.a_delete_all()
     return redirect("index")
