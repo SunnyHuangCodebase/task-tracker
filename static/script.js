@@ -10,12 +10,10 @@ function get_cookie(name) {
             }
         }
     }
-    console.log(cookieValue)
     return cookieValue
 }
 async function add_task(form){
     csrftoken = get_cookie("csrftoken")
-    console.log(csrftoken)
     url = "/add"
 
     fetch(form.action, {method: form.method, body: new FormData(form)})
