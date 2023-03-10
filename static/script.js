@@ -21,7 +21,7 @@ async function add_task(form){
 }
 async function update_task(button){
     csrftoken = get_cookie("csrftoken")
-    url = `/update/${button.value}/`
+    url = `/update/${button.value}`
     fetch(
         url, {
             method: "PATCH",
@@ -33,7 +33,7 @@ async function update_task(button){
 
 async function delete_task(button){
     csrftoken = get_cookie("csrftoken")
-    url = `/delete/${button.value}/`
+    url = `/delete/${button.value}`
     fetch(
         url, {
             method: "DELETE",
@@ -44,7 +44,7 @@ async function delete_task(button){
 }
 async function delete_all_tasks(){
     csrftoken = get_cookie("csrftoken")
-    url = "/delete_all/"
+    url = "/delete_all"
     fetch(
         url, {
             method: "DELETE",
