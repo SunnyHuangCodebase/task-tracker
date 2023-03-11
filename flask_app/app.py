@@ -22,7 +22,7 @@ app = FlaskApp(
 app.set_database(Database())
 
 
-@app.route("/", methods=["GET", "POST", "PATCH", "PUT", "DELETE"])
+@app.get("/")
 def home():
     """Return all tasks."""
     tasks = Task.get_all(app.database)
@@ -37,28 +37,27 @@ def home():
 def add():
     task_name = request.form.get("name")
     Task(task_name, app.database)
-    return redirect(url_for("home"))
+    return redirect(url_for("home"), 303)
 
 
 @app.patch("/update/<int:task_id>")
 def update(task_id: int):
     task = Task.get_by_id(app.database, task_id)
     task.toggle_complete()
-    return redirect(url_for("home"))
+    return redirect(url_for("home"), 303)
 
 
 @app.delete("/delete/<int:task_id>")
 def delete(task_id: int):
     task = Task.get_by_id(app.database, task_id)
     task.delete()
-    print("Deleted from Flask")
-    return redirect(url_for("home"))
+    return redirect(url_for("home"), 303)
 
 
 @app.delete("/delete_all")
 def delete_all():
     Task.delete_all(app.database)
-    return redirect(url_for("home"))
+    return redirect(url_for("home"), 303)
 
 
 def main():

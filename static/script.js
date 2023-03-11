@@ -38,8 +38,6 @@ async function add_task(form){
 }
 
 async function update_task(button) {
-    let token = get_csrftoken()
-    console.log(token)
     let url = `/update/${button.value}`
     fetch(url, {
         method: "PATCH",
