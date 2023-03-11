@@ -1,11 +1,15 @@
 from django.core.handlers.asgi import ASGIRequest
-from django.http import HttpResponseNotAllowed
-from django.shortcuts import redirect, render
+from django.http import HttpResponseNotAllowed, HttpResponseRedirect
+from django.shortcuts import render
 
 from .models import Task
 
 
-async def index(request: ASGIRequest):
+class HttpResponseSeeOther(HttpResponseRedirect):
+    status_code = 303
+
+
+async def home(request: ASGIRequest):
     tasks = [task async for task in Task.objects.all()]
     in_progress = [task for task in tasks if not task.complete]
     complete = [task for task in tasks if task.complete]
@@ -21,7 +25,7 @@ async def add(request: ASGIRequest):
 
     task_name = request.POST.get("name")
     await Task.a_create(task_name)
-    return redirect("index")
+    return HttpResponseSeeOther("/")
 
 
 async def update(request: ASGIRequest, task_id: int):
@@ -29,7 +33,7 @@ async def update(request: ASGIRequest, task_id: int):
         return HttpResponseNotAllowed(["PATCH"])
 
     await Task.a_toggle_complete(task_id)
-    return redirect("index")
+    return HttpResponseSeeOther("/")
 
 
 async def delete(request: ASGIRequest, task_id: int):
@@ -37,7 +41,7 @@ async def delete(request: ASGIRequest, task_id: int):
         return HttpResponseNotAllowed(["DELETE"])
 
     await Task.a_delete(task_id)
-    return redirect("index")
+    return HttpResponseSeeOther("/")
 
 
 async def delete_all(request: ASGIRequest):
@@ -45,4 +49,4 @@ async def delete_all(request: ASGIRequest):
         return HttpResponseNotAllowed(["DELETE"])
 
     await Task.a_delete_all()
-    return redirect("index")
+    return HttpResponseSeeOther("/")
