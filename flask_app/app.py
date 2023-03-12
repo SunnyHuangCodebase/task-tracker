@@ -1,4 +1,7 @@
+import os
+
 from flask import Flask, redirect, render_template, request, url_for
+from flask_wtf.csrf import CSRFProtect
 
 from server.database import Database
 from server.model import Task
@@ -20,6 +23,10 @@ app = FlaskApp(
 )
 
 app.set_database(Database())
+
+SECRET_KEY = os.urandom(32)
+app.config["SECRET_KEY"] = SECRET_KEY
+csrf = CSRFProtect(app)
 
 
 @app.get("/")

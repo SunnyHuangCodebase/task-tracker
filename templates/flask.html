@@ -5,3 +5,10 @@
 <script src="{{ url_for('static', filename='bootstrap.bundle.min.js') }}"></script>
 <script src="{{ url_for('static', filename='script.js') }}"></script>
 {% endblock %}
+
+{% block csrf %}
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+<script type="text/javascript">
+    set_cookie("csrftoken", "{{ csrf_token() }}");
+</script>
+{% endblock %}
