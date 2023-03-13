@@ -27,11 +27,12 @@ function get_csrftoken() {
     return get_cookie("csrftoken")
 }
 
-async function add_task(form){
+async function add_task(form, event){
+    event.preventDefault()
     fetch(form.action, {
         method: form.method,
         body: new FormData(form),
-        headers: {"X-CSRFTOKEN": get_csrftoken()}
+        headers: {"X-CSRF-TOKEN": get_csrftoken()}
     })
     .then(response => response.text())
     .then(html => document.body.innerHTML = html)
@@ -41,7 +42,7 @@ async function update_task(button) {
     let url = `/update/${button.value}`
     fetch(url, {
         method: "PATCH",
-        headers: {"X-CSRFTOKEN": get_csrftoken()}
+        headers: {"X-CSRF-TOKEN": get_csrftoken()}
     })
     .then(response => response.text())
     .then(html => document.body.innerHTML = html)
@@ -51,16 +52,17 @@ async function delete_task(button) {
     let url = `/delete/${button.value}`
     fetch(url, {
         method: "DELETE",
-        headers: {"X-CSRFTOKEN": get_csrftoken()}
+        headers: {"X-CSRF-TOKEN": get_csrftoken()}
     })
     .then(response => response.text())
     .then(html => document.body.innerHTML = html)
 }
+
 async function delete_all_tasks() {
     let url = "/delete_all"
     fetch(url, {
         method: "DELETE",
-        headers: {"X-CSRFTOKEN": get_csrftoken()}
+        headers: {"X-CSRF-TOKEN": get_csrftoken()}
     })
     .then(response => response.text())
     .then(html => document.body.innerHTML = html)

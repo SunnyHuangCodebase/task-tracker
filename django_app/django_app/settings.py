@@ -122,3 +122,5 @@ STATIC_ROOT = PROJECT_DIR / 'static'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CSRF_HEADER_NAME = 'HTTP_X_CSRF_TOKEN'

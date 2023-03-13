@@ -17,7 +17,7 @@
                     <h1 class="fs-3 ps-2 m-3">Task App</h1>
                 </div>
                 <div>
-                    <form class="input-group justify-content-center bg-transparent" action="add" method="POST">
+                    <form class="input-group justify-content-center bg-transparent" action="add" method="POST" onsubmit="add_task(this, event)">
                         {% block csrf %}{% endblock %}
                         <div class="input-group-prepend">
                             <span class="input-group-text bi-list-check h-100 rounded-0 rounded-start"></span>

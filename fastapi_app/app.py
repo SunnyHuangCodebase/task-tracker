@@ -27,7 +27,7 @@ SECRET_KEY = str(os.urandom(32))
 
 class CSRFSettings(BaseModel):
     secret_key: str = SECRET_KEY
-    csrf_header_name: str = "X-CSRFTOKEN"
+    csrf_header_name: str = "X-CSRF-TOKEN"
 
 
 @CsrfProtect.load_config
@@ -68,7 +68,9 @@ def add(request: Request,
         csrf_protect: CsrfProtect = Depends()):
     csrf_token = csrf_protect.get_csrf_from_headers(request.headers)
     csrf_protect.validate_csrf(csrf_token)
+
     Task(name, db)
+
     url = app.url_path_for("home")
     return RedirectResponse(url=url, status_code=status.HTTP_303_SEE_OTHER)
 
@@ -80,6 +82,7 @@ def update(request: Request,
            csrf_protect: CsrfProtect = Depends()):
     csrf_token = csrf_protect.get_csrf_from_headers(request.headers)
     csrf_protect.validate_csrf(csrf_token)
+
     task = Task.get_by_id(db, task_id)
     task.toggle_complete()
 
@@ -94,8 +97,10 @@ def delete(request: Request,
            csrf_protect: CsrfProtect = Depends()):
     csrf_token = csrf_protect.get_csrf_from_headers(request.headers)
     csrf_protect.validate_csrf(csrf_token)
+
     task = Task.get_by_id(db, task_id)
     task.delete()
+
     url = app.url_path_for("home")
     return RedirectResponse(url=url, status_code=status.HTTP_303_SEE_OTHER)
 
@@ -104,7 +109,9 @@ def delete(request: Request,
 async def delete_all(request: Request, csrf_protect: CsrfProtect = Depends()):
     csrf_token = csrf_protect.get_csrf_from_headers(request.headers)
     csrf_protect.validate_csrf(csrf_token)
+
     Task.delete_all(app.database)
+
     url = app.url_path_for("home")
     return RedirectResponse(url=url, status_code=status.HTTP_303_SEE_OTHER)
 
