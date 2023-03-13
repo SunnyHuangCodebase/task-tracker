@@ -221,6 +221,26 @@ doc = ["mdx-include (>=1.4.1,<2.0.0)", "mkdocs (>=1.1.2,<2.0.0)", "mkdocs-markdo
 test = ["anyio[trio] (>=3.2.1,<4.0.0)", "black (==23.1.0)", "coverage[toml] (>=6.5.0,<8.0)", "databases[sqlite] (>=0.3.2,<0.7.0)", "email-validator (>=1.1.1,<2.0.0)", "flask (>=1.1.2,<3.0.0)", "httpx (>=0.23.0,<0.24.0)", "isort (>=5.0.6,<6.0.0)", "mypy (==0.982)", "orjson (>=3.2.1,<4.0.0)", "passlib[bcrypt] (>=1.7.2,<2.0.0)", "peewee (>=3.13.3,<4.0.0)", "pytest (>=7.1.3,<8.0.0)", "python-jose[cryptography] (>=3.3.0,<4.0.0)", "python-multipart (>=0.0.5,<0.0.7)", "pyyaml (>=5.3.1,<7.0.0)", "ruff (==0.0.138)", "sqlalchemy (>=1.3.18,<1.4.43)", "types-orjson (==3.6.2)", "types-ujson (==5.7.0.1)", "ujson (>=4.0.1,!=4.0.2,!=4.1.0,!=4.2.0,!=4.3.0,!=5.0.0,!=5.1.0,<6.0.0)"]
 
 [[package]]
+name = "fastapi-csrf-protect"
+version = "0.2.2"
+description = "Simple integration of Cross-Site Request Forgery (XSRF) Protection by using either Cookies or Context combined with Headers"
+category = "main"
+optional = false
+python-versions = ">=3.6.1,<4.0.0"
+files = [
+    {file = "fastapi-csrf-protect-0.2.2.tar.gz", hash = "sha256:5c8fc8b6db22a84d6479726acf1b2b0b5c36b93806a763afd2ef731980f446b1"},
+    {file = "fastapi_csrf_protect-0.2.2-py3-none-any.whl", hash = "sha256:50b9077fc4929f76a11291de4c9f64c98fb8f85ad3de2d4822e05c61a201662f"},
+]
+
+[package.dependencies]
+fastapi = ">=0,<1"
+itsdangerous = ">=2.0.1,<3.0.0"
+pydantic = ">=1.7.2,<2.0.0"
+
+[package.extras]
+examples = ["Jinja2[examples] (>=3.0.1,<4.0.0)", "uvicorn[examples] (>=0.15.0,<0.16.0)"]
+
+[[package]]
 name = "flask"
 version = "2.2.3"
 description = "A simple framework for building complex web applications."
@@ -1374,4 +1394,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "17c46621a7f7b69376acf5a05f38c2a7b0b79adb8d2b56f1e9e89eb511cf8b07"
+content-hash = "00bd729a3add7408ba114e68222366c456f0037ba006de9882680a1a427caf05"
